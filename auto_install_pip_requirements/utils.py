@@ -42,7 +42,17 @@ def current_freeze():
 
 def install(package):
     '''Install package via pip programmatically'''
-    pip.main(['install', package])
+    # TODO: need add support package.options
+    command = ['install', '--user']
+    install_command = command[:]
+    if package.req:
+        install_command += [str(package.req)]
+    elif package.link:
+        install_command += [str(package.link)]
+    else:
+        pass
+    if install_command != command:
+        pip.main(install_command)
 
 
 def install_pip_requirements(req_file):
@@ -51,7 +61,7 @@ def install_pip_requirements(req_file):
         if isinstance(item, pip.req.InstallRequirement):
             _logger.info('required package: {}'.format(item.name))
 
-            if len(str(item.req.specifier)) > 0:
+            if item.req is not None and len(str(item.req.specifier)) > 0:
                 _logger.info('  {}'.format(str(item.req.specifier)))
 
             if item.link is not None:
@@ -68,7 +78,7 @@ def install_pip_requirements(req_file):
                     elif isinstance(opts, dict):
                         for k, v in opts.iteritems():
                             _logger.info('    {}: {}'.format(k, v))
-            install(str(item))
+            install(item)
 
 
 def get_req_file(path):
