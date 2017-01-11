@@ -55,9 +55,13 @@ def install(package):
         pip.main(install_command)
 
 
+def get_parsed_requirements(req_file):
+    return parse_requirements(req_file, session='somesession')
+
+
 def install_pip_requirements(req_file):
     '''Install dependencies from requirements `req_file`'''
-    for item in parse_requirements(req_file, session='somesession'):
+    for item in get_parsed_requirements(req_file):
         if isinstance(item, pip.req.InstallRequirement):
             _logger.info('required package: {}'.format(item.name))
 
