@@ -33,7 +33,6 @@ class Module(models.Model):
             mod_path = modules.get_module_path(module.name)
             req_file = get_req_file(mod_path)
             if req_file:
-                import pdb; pdb.set_trace()
                 install_pip_requirements(req_file)
         return True
 

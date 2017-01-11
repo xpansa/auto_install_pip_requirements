@@ -62,10 +62,10 @@ def install_pip_requirements(req_file):
             if len(item.options) > 0:
                 for opt_type, opts in item.options.iteritems():
                     _logger.info('  {}:'.format(opt_type))
-                    if type(opts) is list:
+                    if isinstance(opts, list):
                         for opt in opts:
                             _logger.info('    {}'.format(opt))
-                    elif type(opts) is dict:
+                    elif isinstance(opts, dict):
                         for k, v in opts.iteritems():
                             _logger.info('    {}: {}'.format(k, v))
             install(str(item))
